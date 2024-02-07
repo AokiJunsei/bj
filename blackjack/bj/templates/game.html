@@ -1,0 +1,65 @@
+{% load static %}
+
+<DOCTYPE html>
+    <html>
+        <head>
+            <meta charset="UTF-8">
+            <link rel='stylesheet' href="{% static 'style/game.css' %}">
+            <title>BJ</title>
+        </head>
+        <body>
+        <div class="hero">
+            <h1>可愛いイラストカードでブラックジャック</h1>
+
+
+            <div class='game_board'>
+                <div class='container'>
+                    <h2>ディーラー</h2>
+                    <ul>
+                        {% for card in dealer_card %}
+                        <li><img src="static/cards/{{card}}" class='card_img'></li>
+                        {% endfor %}
+                    </ul>
+                    <p>ディーラーポイント: {{dealer_point}}</p>
+                </div>
+                <div class='container'>
+                    <h2>プレイヤー</h2>
+                    <ul>
+                        {% for card in player_card %}
+                        <li><img src="static/cards/{{card}}" class='card_img'></li>
+                        {% endfor %}
+                    </ul>
+                    <p>プレイヤーポイント: {{player_point}}</p>
+                </div>
+            </div>
+                
+            <p class='game_msg'>{{message}}</p>
+
+            <div class='user_form'>
+                {% if not turn %}
+                    {% if not flag%}
+                        <form action='' method='POST'>
+                            {% csrf_token %}
+                            <input type='submit' value='すすむ' name='start'>
+                        </form>
+                    {% endif %}
+                {% endif %}
+                    
+                {% if turn %}
+                    <form action='' method='POST'>
+                        {% csrf_token %}
+                        <input type='submit' value='HIT' name='hit'>
+                        <input type='submit' value='STAND' name='stand'>
+                    </form>
+                {% endif %}
+
+                {% if flag %}
+                    <form action='' method='POST'>
+                        {% csrf_token %}
+                        <input type='submit' value='最初から' name='restart'>
+                    </form>
+                {% endif %}
+            </div>
+        </div>
+    </body>
+</html>
